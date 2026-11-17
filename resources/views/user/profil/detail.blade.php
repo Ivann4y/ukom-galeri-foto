@@ -1,5 +1,6 @@
 @extends('user.layouts.index')
 @section('content')
+    @include('partials.errors')
     <div class="flex gap-4">
         <div>
             <img src="{{ asset('storage/' . $fotos->path_foto) }}" alt="{{ $fotos->id_foto }}"

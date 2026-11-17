@@ -1,5 +1,6 @@
 @extends('user.layouts.index')
 @section('content')
+    @include('partials.errors')
     <p class="text-4xl"><u>Upload Foto</u></p>
     <form action="/newFoto" method="POST" enctype="multipart/form-data">
         @csrf

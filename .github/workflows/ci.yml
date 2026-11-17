@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, pdo, pdo_mysql, sqlite3, bcmath, gd
+          tools: composer:v2
+          coverage: none
+
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: PHP syntax check
+        run: |
+          find app database routes config -name '*.php' -print0 | xargs -0 -n1 -P4 php -l > /dev/null
+          echo "PHP lint OK"
+
+      - name: Route list
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+          php artisan route:list
+
+      - name: Compile Blade views
+        run: php artisan view:cache

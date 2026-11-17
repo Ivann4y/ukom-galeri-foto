@@ -1,5 +1,6 @@
 @extends('user.layouts.index')
 @section('content')
+    @include('partials.errors')
     <p class="text-4xl"><u>Add Album</u></p>
     <form action="/newAlbum" method="POST" enctype="multipart/form-data">
         @csrf

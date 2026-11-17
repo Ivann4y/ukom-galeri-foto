@@ -22,7 +22,9 @@ class StoreFotoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'foto' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+            'deskripsi' => ['required', 'string', 'max:255'],
+            'id_album' => ['nullable', 'integer', 'exists:albums,id_album'],
         ];
     }
 }

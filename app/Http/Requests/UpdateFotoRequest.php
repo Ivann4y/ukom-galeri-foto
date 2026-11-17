@@ -22,7 +22,8 @@ class UpdateFotoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'deskripsi' => ['required', 'string', 'max:255'],
+            'album' => ['nullable', 'integer', 'exists:albums,id_album'],
         ];
     }
 }

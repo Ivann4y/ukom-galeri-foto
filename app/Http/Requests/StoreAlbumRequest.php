@@ -22,7 +22,8 @@ class StoreAlbumRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'nama' => ['required', 'string', 'max:255'],
+            'deskripsi' => ['required', 'string', 'max:1000'],
         ];
     }
 }
