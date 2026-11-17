@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Foto;
 use App\Models\Like;
 use App\Http\Requests\StoreLikeRequest;
 use App\Http\Requests\UpdateLikeRequest;
@@ -29,18 +30,19 @@ class LikeController extends Controller
      */
     public function store(StoreLikeRequest $request)
     {
-        $like = Like::where('id_foto', request('id_foto'))->where('id_user', auth()->id())->first();
+        $foto = Foto::findOrFail($request->route('id_foto'));
+
+        $like = Like::where('id_foto', $foto->id_foto)->where('id_user', auth()->id())->first();
         if ($like) {
             $like->delete();
             return back();
         }
 
-        $data = [
-            'id_foto'=>request('id_foto'),
-            'id_user'=>auth()->id()
-        ];
+        Like::create([
+            'id_foto' => $foto->id_foto,
+            'id_user' => auth()->id(),
+        ]);
 
-        Like::create($data);
         return back();
     }
 

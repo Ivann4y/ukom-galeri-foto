@@ -64,10 +64,11 @@ class AlbumController extends Controller
      */
     public function edit(Album $id_album)
     {
-        // $tittle = 'Edit Album';
-        // $user = User::where('id_user', auth()->id())->first();
-        // $album = $id_album;
-        // return view('user.album.edit', compact('tittle', 'user', 'album'));
+        $tittle = 'Edit Album';
+        $user = User::where('id_user', auth()->id())->first();
+        $album = $id_album;
+
+        return view('user.album.edit', compact('tittle', 'user', 'album'));
     }
 
     /**
@@ -75,14 +76,13 @@ class AlbumController extends Controller
      */
     public function update(UpdateAlbumRequest $request, Album $id_album)
     {
-        // $data =[
-        //     'nama_album' => request('nama'),
-        //     'deskripsi' => request('deskripsi')
-        // ];
+        $id_album->update([
+            'nama_album' => $request->input('nama'),
+            'deskripsi' => $request->input('deskripsi'),
+        ]);
 
-        // $id_album->update($data);
-        // session()->flash('Berhasil', 'Update album berhasil');
-        // return redirect('/album');
+        session()->flash('Berhasil', 'Update album berhasil');
+        return redirect('/album');
     }
 
     /**
@@ -90,10 +90,11 @@ class AlbumController extends Controller
      */
     public function destroy(Album $id_album)
     {
-        // Foto::where('id_album', $id_album->id_album)->delete();
+        // Foto dilepas dari album (id_album = null), file dan barisnya tidak dihapus.
+        Foto::where('id_album', $id_album->id_album)->update(['id_album' => null]);
 
-        // $id_album->delete();
-        // session()->flash('Berhasil', 'Hapus foto berhasil');
-        // return redirect('/album');
+        $id_album->delete();
+        session()->flash('Berhasil', 'Album berhasil dihapus');
+        return redirect('/album');
     }
 }

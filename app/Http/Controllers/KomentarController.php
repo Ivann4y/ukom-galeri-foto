@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Foto;
 use App\Models\Komentar;
 use App\Http\Requests\StoreKomentarRequest;
 use App\Http\Requests\UpdateKomentarRequest;
@@ -29,13 +30,14 @@ class KomentarController extends Controller
      */
     public function store(StoreKomentarRequest $request)
     {
-        $data = [
-            'komentar' => request('komentar'),
-            'id_user' => auth()->id(),
-            'id_foto' => request('id_foto')
-        ];
+        $foto = Foto::findOrFail($request->route('id_foto'));
 
-        Komentar::create($data);
+        Komentar::create([
+            'komentar' => $request->input('komentar'),
+            'id_user' => auth()->id(),
+            'id_foto' => $foto->id_foto,
+        ]);
+
         return back();
     }
 

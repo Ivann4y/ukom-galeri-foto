@@ -43,9 +43,9 @@ Route::middleware('auth')->group(function(){
         Route::get('/newAlbum', 'create');
         Route::post('/newAlbum', 'store');
         Route::get('/detailAlbum/{id_album}', 'show');
-        // Route::get('/editAlbum/{id_album}/{username}', 'edit');
-        // Route::put('/editAlbum/{id_album}', 'update');
-        // Route::delete('/deleteAlbum/{id_album}', 'destroy');
+        Route::get('/editAlbum/{id_album}', 'edit');
+        Route::put('/editAlbum/{id_album}', 'update');
+        Route::delete('/deleteAlbum/{id_album}', 'destroy');
     });
 
     Route::controller(FotoController::class)->group(function(){
