@@ -70,6 +70,8 @@ class FotoController extends Controller
      */
     public function edit(Foto $id_foto)
     {
+        abort_unless((int) $id_foto->id_user === (int) auth()->id(), 403);
+
         $fotos = $id_foto;
         $tittle = 'Edit Foto';
         $user = User::where('id_user', auth()->id())->first();
@@ -82,6 +84,8 @@ class FotoController extends Controller
      */
     public function update(UpdateFotoRequest $request, Foto $id_foto)
     {
+        abort_unless((int) $id_foto->id_user === (int) auth()->id(), 403);
+
         $data = [
             'deskripsi' => request('deskripsi'),
             'id_album' => request('album')
@@ -97,6 +101,8 @@ class FotoController extends Controller
      */
     public function destroy(Foto $id_foto)
     {
+        abort_unless((int) $id_foto->id_user === (int) auth()->id(), 403);
+
         Storage::delete($id_foto->path_foto);
         $id_foto->destroy($id_foto->id_foto);
 

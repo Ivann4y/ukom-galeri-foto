@@ -64,6 +64,8 @@ class AlbumController extends Controller
      */
     public function edit(Album $id_album)
     {
+        abort_unless((int) $id_album->id_user === (int) auth()->id(), 403);
+
         $tittle = 'Edit Album';
         $user = User::where('id_user', auth()->id())->first();
         $album = $id_album;
@@ -76,6 +78,8 @@ class AlbumController extends Controller
      */
     public function update(UpdateAlbumRequest $request, Album $id_album)
     {
+        abort_unless((int) $id_album->id_user === (int) auth()->id(), 403);
+
         $id_album->update([
             'nama_album' => $request->input('nama'),
             'deskripsi' => $request->input('deskripsi'),
@@ -90,6 +94,8 @@ class AlbumController extends Controller
      */
     public function destroy(Album $id_album)
     {
+        abort_unless((int) $id_album->id_user === (int) auth()->id(), 403);
+
         // Foto dilepas dari album (id_album = null), file dan barisnya tidak dihapus.
         Foto::where('id_album', $id_album->id_album)->update(['id_album' => null]);
 
